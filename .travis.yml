@@ -1,6 +1,8 @@
 language: csharp
 solution: CoincheServer.snl
 
+sudo: required
+
 dotnet: 2.0.2
 mono: none
 
