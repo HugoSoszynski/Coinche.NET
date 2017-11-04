@@ -10,6 +10,7 @@ namespace CoincheClient
     {
         static void Main(string[] args)
         {
+            Console.Out.WriteLine("Hello, welcome to Coinche.NET");
         }
     }
 }
