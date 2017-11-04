@@ -1,0 +1,72 @@
+﻿syntax = "proto3";
+package CoincheServer;
+
+enum Team {
+    BLUE = 0;
+    RED = 1;
+    SPECTATE = 2;
+    NONE = 3;
+}
+
+enum CmdTarget {
+    AUTHENTIFICATION = 0;
+    CHAT = 1;
+    LOBBYCMD = 2;
+    GAMECMD = 3;
+    SERVERCMD = 4;
+}
+
+message Authentification {
+ string name = 1;
+ Team team = 2;
+}
+
+message Chat {
+    string msg = 1;
+}
+
+message CLobby {
+    enum Cmd {
+        TEAM = 0;
+        USERNAME = 1;
+    }
+
+    Cmd cmd = 1;
+    string value = 2;
+    Team team = 3;
+}
+
+message CServer {
+    enum Cmd {
+        LISTING = 0;
+        JOIN = 1;
+        CREATE = 2;
+    }
+
+    Cmd cmd = 1;
+    string value = 2;
+}
+
+message CGame {
+    enum Cmd {
+        CARD = 0;
+        CONTRACT = 1;
+        HAND = 2;
+    }
+    Cmd cmd = 1;
+    string value = 2;
+}
+
+message GeneralistProto {
+    CmdTarget type = 1;
+
+    oneof body {
+        Authentification auth = 2;
+        Chat chat = 3;
+        CLobby lobbycmd = 4;
+        CServer servercmd = 5;
+        CGame gamecmd = 6;
+    }
+
+    string timestamp = 7;
+}
