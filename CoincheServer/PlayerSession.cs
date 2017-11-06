@@ -9,7 +9,7 @@ using Google.Protobuf;
 
 namespace CoincheServer
 {
-    class PlayerSession
+    public class PlayerSession
     {
         public PlayerSession() { }
 
