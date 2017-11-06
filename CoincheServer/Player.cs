@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace CoincheServer
 {
-    class Player
+    public class Player
     {
         public Socket Socket { get; }
         public const int BufferSize = 4096;
