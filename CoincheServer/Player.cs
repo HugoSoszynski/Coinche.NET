@@ -8,12 +8,14 @@ using System.Net.Sockets;
 
 namespace CoincheServer
 {
-    class Player
+
+    public class Player
     {
         public Socket Socket { get; }
         public const int BufferSize = 4096;
         public byte[] buff = new byte[BufferSize];
         public string Name { get; set; }
+        public Team Team { get; set; }
 
         public Player(ref Socket socket)
         {
