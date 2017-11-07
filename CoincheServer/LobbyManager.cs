@@ -11,7 +11,10 @@ namespace CoincheServer
         private List<Player> players;
         private List<Lobby> lobbies;
 
-        public LobbyManager() { }
+        public LobbyManager() {
+            players = new List<Player>();
+            lobbies = new List<Lobby>();
+        }
 
         public void Treat (ref Player player, GeneralistProto proto) {
 
@@ -30,7 +33,7 @@ namespace CoincheServer
 
         private void Auth(ref Player player, GeneralistProto proto) {
             player.Name = proto.Auth.Name;
-            player.Team = Team.NONE;
+            player.Team = Team.None;
             players.Add(player);
         }
 
@@ -51,11 +54,11 @@ namespace CoincheServer
         private void LobbyCreating(ref Player player, GeneralistProto proto) {
             foreach (var lobby in lobbies)
                 if (lobby.name.Equals(proto.Servercmd.Value)) {
-                    player.sent("A lobby already exist with this name");
+                    PlayerSession.BeginSend(ref player, "A lobby already exist with this name");
                     return;
                 }
             Lobby newlobby = new Lobby(proto.Servercmd.Value);
-            player.sent("You successfully great your lobby");
+            PlayerSession.BeginSend(ref player, "You successfully great your lobby");
             lobbies.Add(newlobby);
             newlobby.AddPlayer(ref player);
         }
@@ -69,21 +72,21 @@ namespace CoincheServer
                     return;
                 }
             }
-            player.sent("The lobby you tried to join doesn't exist, type the command #LIST to see all the lobby");
+            PlayerSession.BeginSend(ref player, "The lobby you tried to join doesn't exist, type the command #LIST to see all the lobby");
         }
 
         private void LobbiesListing(ref Player player)
         {
-            player.sent("Actual lobbies are :\n");
+            PlayerSession.BeginSend(ref player, "Actual lobbies are :\n");
             foreach (var lobby in lobbies) {
-                player.sent("Lobby: " + lobby.name);
+                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name);
             }
         }
 
         private void FindLobbyAndTreat(ref Player player, GeneralistProto proto) {
             Lobby lobby = FindLobby(ref player);
             if (lobby == null) {
-                player.sent("You can't sent that type of cmd till now");
+                PlayerSession.BeginSend(ref player, "You can't sent that type of cmd till now");
                 return;
             }
             lobby.Treat(proto, ref player);

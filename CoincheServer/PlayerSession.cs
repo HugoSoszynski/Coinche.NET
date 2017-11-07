@@ -46,7 +46,7 @@ namespace CoincheServer
             }
         }
 
-        public static void BeginSend(ref Player player, ref string data)
+        public static void BeginSend(ref Player player, string data)
         {
             if (String.IsNullOrEmpty(data) || String.IsNullOrWhiteSpace(data))
                 return;

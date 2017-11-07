@@ -8,11 +8,6 @@ using System.Net.Sockets;
 
 namespace CoincheServer
 {
-    enum Team {
-        BLUE = 0,
-        RED = 1,
-        NONE = 3
-    }
 
     public class Player
     {
