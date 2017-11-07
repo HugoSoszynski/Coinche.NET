@@ -20,7 +20,7 @@ namespace CoincheClient
         public IPEndPoint EndPoint { get; private set; }
         private NetState State;
 
-        public AsyncClient(ref string host, int port)
+        public AsyncClient(string host, int port)
         {
             IPHostEntry iPHostEntry = Dns.GetHostEntry(host);
             IPAddress address = iPHostEntry.AddressList[0];
