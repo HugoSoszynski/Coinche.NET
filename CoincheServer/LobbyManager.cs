@@ -30,6 +30,7 @@ namespace CoincheServer
 
         private void Auth(ref Player player, GeneralistProto proto) {
             player.Name = proto.Auth.Name;
+            player.Team = Team.NONE;
             players.Add(player);
         }
 
