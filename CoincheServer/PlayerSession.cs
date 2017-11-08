@@ -15,7 +15,7 @@ namespace CoincheServer
 
         public static void BeginRead(ref Player player)
         {
-            player.Socket.BeginReceive(
+            var res = player.Socket.BeginReceive(
                 player.buff, 
                 0, 
                 Player.BufferSize, 
@@ -23,6 +23,8 @@ namespace CoincheServer
                 new AsyncCallback(ReadCallback), 
                 player
                 );
+            if (res.CompletedSynchronously)
+                ReadCallback(res);
         }
 
         private static void ReadCallback(IAsyncResult ar)
@@ -30,12 +32,15 @@ namespace CoincheServer
             try
             {
                 Player player = ar.AsyncState as Player;
-
                 int bytesRead = player.Socket.EndReceive(ar);
-
-                GeneralistProto proto = GeneralistProto.Parser.ParseFrom(player.buff);
-
-                // Send to proto to lobby manager
+                Console.WriteLine("bytesRead = " + bytesRead.ToString());
+                if (bytesRead > 0)
+                {
+                    byte[] tmp = new byte[bytesRead];
+                    Array.Copy(player.buff, tmp, bytesRead);
+                    GeneralistProto proto = GeneralistProto.Parser.ParseFrom(tmp);
+                    // Send to proto to lobby manager
+                }
 
                 BeginRead(ref player);
             }

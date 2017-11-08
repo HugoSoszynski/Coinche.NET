@@ -10,7 +10,7 @@ namespace CoincheServer
     {
         static void Main(string[] args)
         {
-            Console.Out.WriteLine("Coinche.NET Server...");
+            AsyncListener.Start();
         }
     }
 }
