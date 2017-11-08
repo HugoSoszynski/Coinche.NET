@@ -20,9 +20,11 @@ namespace CoincheServer
 
         public void Broadcast(String msg, ref Player player)
         {
-            foreach (var inPlayer in players) {
-                if (!inPlayer.Equals(player))
-                    PlayerSession.BeginSend(ref player, player.Name + " has said: " + msg);
+            var list = players.ToArray();
+            for (int i = 0; i < list.Length; ++i)
+            {
+                if (!list[i].Equals(player))
+                    PlayerSession.BeginSend(ref list[i], player.Name + " said: " + msg);
             }
         }
 

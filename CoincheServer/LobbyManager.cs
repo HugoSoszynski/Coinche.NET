@@ -8,12 +8,19 @@ namespace CoincheServer
 {
     public class LobbyManager
     {
+        private static LobbyManager Instance = new LobbyManager();
+
         private List<Player> players;
         private List<Lobby> lobbies;
 
         public LobbyManager() {
             players = new List<Player>();
             lobbies = new List<Lobby>();
+        }
+
+        public static LobbyManager GetInstance()
+        {
+            return Instance;
         }
 
         public void Treat (ref Player player, GeneralistProto proto) {
@@ -79,7 +86,7 @@ namespace CoincheServer
         {
             PlayerSession.BeginSend(ref player, "Actual lobbies are :\n");
             foreach (var lobby in lobbies) {
-                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name);
+                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name + '\n');
             }
         }
 

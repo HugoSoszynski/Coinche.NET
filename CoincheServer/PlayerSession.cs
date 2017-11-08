@@ -39,10 +39,9 @@ namespace CoincheServer
                     byte[] tmp = new byte[bytesRead];
                     Array.Copy(player.buff, tmp, bytesRead);
                     GeneralistProto proto = GeneralistProto.Parser.ParseFrom(tmp);
-                    // Send to proto to lobby manager
+                    LobbyManager.GetInstance().Treat(ref player, proto);
+                    BeginRead(ref player);
                 }
-
-                BeginRead(ref player);
             }
             catch (Exception e)
             {
