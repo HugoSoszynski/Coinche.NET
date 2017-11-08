@@ -23,7 +23,7 @@ namespace CoincheClient
         public AsyncClient(string host, int port)
         {
             IPHostEntry iPHostEntry = Dns.GetHostEntry(host);
-            IPAddress address = iPHostEntry.AddressList[0];
+            IPAddress address = iPHostEntry.AddressList[1];
             this.EndPoint = new IPEndPoint(address, port);
             State = new NetState();
             State.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -64,10 +64,7 @@ namespace CoincheClient
 
         public void Send(ref GeneralistProto proto)
         {
-            int len = CodedOutputStream.ComputeMessageSize(proto);
-            var data = new byte[len];
-            CodedOutputStream os = new CodedOutputStream(data);
-            os.WriteMessage(proto);
+            var data = proto.ToByteArray();
             State.Socket.Send(data);
         }
     }

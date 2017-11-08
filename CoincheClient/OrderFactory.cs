@@ -111,7 +111,7 @@ namespace CoincheClient {
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Chat,
                 Chat = new Chat {
-                    Msg = Order.Substring(6)
+                    Msg = Order
                 }
             };
             return proto;

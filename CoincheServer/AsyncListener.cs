@@ -44,6 +44,8 @@ namespace CoincheServer
             // Signal we can accept another connection
             acceptConnection.Set();
 
+            Console.WriteLine("New connection");
+
             Socket listener = ar.AsyncState as Socket;
             Socket client = listener.EndAccept(ar);
 
