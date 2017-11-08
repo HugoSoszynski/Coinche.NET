@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace CoincheServer
 {
-    class Program
+    public class Game
     {
-        static void Main(string[] args)
-        {
-            AsyncListener.Start();
+        public Game() { }
+
+        public void Treat(GeneralistProto proto, ref Player player) {
+
         }
     }
 }
