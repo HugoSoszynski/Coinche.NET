@@ -45,8 +45,7 @@ namespace CoincheClient {
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Servercmd,
                 Servercmd = new CServer {
-                    Cmd = CServer.Types.Cmd.Listing,
-                    Value = Order.Substring(6)
+                    Cmd = CServer.Types.Cmd.Listing
                 }
             };
             return proto;
