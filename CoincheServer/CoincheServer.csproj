@@ -46,14 +46,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncListener.cs" />
+    <Compile Include="Card.cs" />
     <Compile Include="CoincheServer.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="LobbyManager.cs" />
+    <Compile Include="PlayedCard.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Group.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

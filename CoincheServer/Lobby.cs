@@ -61,6 +61,21 @@ namespace CoincheServer
             return false;
         }
 
+        private bool IsGameLaunchable() {
+            int blue = 0;
+            int red = 0;
+
+            foreach (var player in players) {
+                if (player.Team == Team.Blue)
+                    ++blue;
+                else if (player.Team == Team.Red)
+                    ++red;
+            }
+            if (blue == 2 && red == 2)
+                return true;
+            return false;
+        }
+
         private void JoinningTeam(ref Player player, GeneralistProto proto) {
             if (player.Team == proto.Lobbycmd.Team)
             {
@@ -74,7 +89,10 @@ namespace CoincheServer
             }
             player.Team = proto.Lobbycmd.Team;
             PlayerSession.BeginSend(ref player, "You join the team you wanted");
-            // can do here the check if we should launch the game
+
+            if (IsGameLaunchable()) {
+                game = new Game(ref players);
+            }
         }
 
         public void Treat(GeneralistProto proto, ref Player player){
