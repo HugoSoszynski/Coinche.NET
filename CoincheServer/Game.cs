@@ -260,7 +260,7 @@ namespace CoincheServer
             Broadcast("The contract is: " + _contracts[(int)_contract.type]);
             Broadcast("Played card are: ");
             foreach (PlayedCard card in turn)
-                Broadcast(card.player.Name + " played " + Card._names[(int)card.card.face] + " " + Card._colors[(int)card.card.color]);
+                Broadcast(card.player.Name + " played " + Card._names[(int)card.card.face] + " " + Card._colors[(int)card.card.color] + "\n");
 
             switch (_contract.type) {
                 case CoincheServer.Contract.ContractType.Clubs:
