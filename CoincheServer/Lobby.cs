@@ -44,8 +44,10 @@ namespace CoincheServer
         }
 
         private void ChangingUsername(ref Player player, GeneralistProto proto) {
+            string lastname = player.Name;
             player.Name = proto.Lobbycmd.Value;
             PlayerSession.BeginSend(ref player, "You succesfully change your name!!");
+            Broadcast(lastname + " change his/her name to " + player.Name, ref player);
         }
 
         private Boolean TeamFull(GeneralistProto proto)

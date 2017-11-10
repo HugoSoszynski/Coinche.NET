@@ -42,6 +42,11 @@ namespace CoincheServer
             player.Name = proto.Auth.Name;
             player.Team = Team.None;
             players.Add(player);
+            PlayerSession.BeginSend(ref player,
+                "#LIST - List all the available lobbies\n" +
+                "#JOIN [ChanName] - Join a channel\n" +
+                "#CREATE [ChanName] - Create a channel\n" +
+                "#USERNAME [NewName] - Change your username(in lobby)");
         }
 
         private void ServerCmd(ref Player player, GeneralistProto proto) {

@@ -9,7 +9,7 @@ namespace CoincheServer
     public class Game
     {
         List<Player> players;
-        List<Card> deck;
+        List<Card> deck = new List<Card>();
         List<PlayedCard> turn = new List<PlayedCard>();
         Group red = new Group();
         Group blue = new Group();
@@ -76,17 +76,17 @@ namespace CoincheServer
 
 
             str = "You recieved ";
-            ret = rnd.Next(0, deck.Count);
             for (int i = 0; i < number; i++) {
+                ret = rnd.Next(0, deck.Count);
                 player.hand.Add(deck.ElementAt(ret));
-                str += Card._names[(int)this.deck.ElementAt(ret).face] + " " + Card._colors[(int)this.deck.ElementAt(ret).color];
+                str += Card._names[(int)this.deck.ElementAt(ret).face] + " " + Card._colors[(int)this.deck.ElementAt(ret).color] + " ";
                 this.deck.RemoveAt(ret);
             }
-            PlayerSession.BeginSend(ref player, str);
+            PlayerSession.BeginSend(ref player, str + "\n");
         }
 
         private void generateDeck() {
-            for (int i = 0; i <= 4; ++i)
+            for (int i = 0; i < 4; ++i)
                 for (int j = 0; j <= 7; ++j)
                     deck.Add(new Card((Card.Face)j, (Card.Color)i));
 
@@ -354,7 +354,7 @@ namespace CoincheServer
                     return;
                 }
                 hasToPlay = 0;
-                Broadcast("The contract turn is now over, first turn of game can start");
+                Broadcast("The contract turn is now over, first turn of game can start\n");
                 tmp = GetToPlay();
                 PlayerSession.BeginSend(ref tmp, "It's your turn to play a card");
                 isWaited = CGame.Types.Cmd.Card;
@@ -367,10 +367,10 @@ namespace CoincheServer
             int face = -1;
             int color = -1;
 
-            for (int i = 0; i < _contracts.Length; ++i)
+            for (int i = 0; i < Card._names.Length; ++i)
                 if (proto.Gamecmd.Value.Split(' ')[0].Equals(CoincheServer.Card._names[i]))
                     face = i;
-            for (int i = 0; i < _contracts.Length; ++i)
+            for (int i = 0; i < Card._colors.Length; ++i)
                 if (proto.Gamecmd.Value.Split(' ')[1].Equals(CoincheServer.Card._colors[i]))
                     color = i;
             if (face == -1 || color == -1)
