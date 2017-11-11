@@ -97,7 +97,23 @@ namespace CoincheServer
             }
         }
 
+        private void GameStatus() {
+            if (game == null)
+                return;
+            if (game.isOver == false)
+                return;
+            game = null;
+            foreach (Player player in players) {
+                player.Team = Team.None;
+            }
+            var list = players.ToArray();
+            for (int i = 0; i < list.Length; ++i) {
+                PlayerSession.BeginSend(ref list[i], "The game has been supress, your team reset you can now do a revanche");
+            }
+        }
+
         public void Treat(GeneralistProto proto, ref Player player){
+            GameStatus();
             switch (proto.Type) {
                 case CmdTarget.Chat:
                     Broadcast(proto.Chat.Msg, ref player);

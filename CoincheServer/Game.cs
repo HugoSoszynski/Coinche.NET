@@ -35,7 +35,7 @@ namespace CoincheServer
                     "#CARD [CardName] [CardColor] - Play a card of name [CardName] and color [CardColor]\n" +
                     "#HAND - Shows your hand.\n" +
                     "#CONTRACT [ContractColor] [ContractValue] - Posting a contract on the turn.\n" +
-                    "Contract can be: [Spades] | [Hearts] | [Diamonds] | [Clubs] | [AllTrumps] | [NoTrumps] | [Pass]\n\n");
+                    "Contract can be: [Spades] | [Hearts] | [Diamonds] | [Clubs] | [AllTrumps] | [NoTrumps] | [Pass] | [Coinche]\n\n");
             this.Run();
         }
 
@@ -82,7 +82,7 @@ namespace CoincheServer
                 str += Card._names[(int)this.deck.ElementAt(ret).face] + " " + Card._colors[(int)this.deck.ElementAt(ret).color] + " ";
                 this.deck.RemoveAt(ret);
             }
-            PlayerSession.BeginSend(ref player, str + "\n");
+            PlayerSession.BeginSend(ref player, str);
         }
 
         private void generateDeck() {
@@ -258,9 +258,6 @@ namespace CoincheServer
             PlayedCard winner = null;
 
             Broadcast("The contract is: " + _contracts[(int)_contract.type]);
-            Broadcast("Played card are: ");
-            foreach (PlayedCard card in turn)
-                Broadcast(card.player.Name + " played " + Card._names[(int)card.card.face] + " " + Card._colors[(int)card.card.color] + "\n");
 
             switch (_contract.type) {
                 case CoincheServer.Contract.ContractType.Clubs:
@@ -354,7 +351,7 @@ namespace CoincheServer
                     return;
                 }
                 hasToPlay = 0;
-                Broadcast("The contract turn is now over, first turn of game can start\n");
+                Broadcast("The contract turn is now over, first turn of game can start");
                 tmp = GetToPlay();
                 PlayerSession.BeginSend(ref tmp, "It's your turn to play a card");
                 isWaited = CGame.Types.Cmd.Card;
@@ -542,7 +539,7 @@ namespace CoincheServer
         public void Hand(GeneralistProto proto, ref Player player) {
             PlayerSession.BeginSend(ref player, "In your hand:");
             foreach (Card card in player.hand)
-                PlayerSession.BeginSend(ref player, Card._names[(int)card.face] + " " + Card._colors[(int)card.color]);
+                PlayerSession.BeginSend(ref player, Card._names[(int)card.face] + " " + Card._colors[(int)card.color] + " ");
         }
     }
 }
