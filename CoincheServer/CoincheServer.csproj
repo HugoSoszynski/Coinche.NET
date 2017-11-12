@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="CoincheServer.proto" />
     <None Include="packages.config" />
   </ItemGroup>
