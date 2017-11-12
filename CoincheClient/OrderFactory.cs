@@ -128,7 +128,7 @@ namespace CoincheClient {
         }
 
         public static GeneralistProto Generate(string Order) {
-            GeneralistProto Proto;
+            GeneralistProto Proto = null;
 
             string keyResult = keys.FirstOrDefault<string>(s => Order.Contains(s));
             switch (keyResult) {
@@ -157,7 +157,8 @@ namespace CoincheClient {
                     Proto = Hand(Order);
                     break;
                 case "#EXIT":
-                    return null;
+                    Environment.Exit(0);
+                    break;
                 default:
                     Proto = Chat(Order);
                     break;

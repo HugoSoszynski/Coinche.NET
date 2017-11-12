@@ -40,8 +40,16 @@ namespace CoincheClient
 
         public void Start()
         {
-            State.Socket.Connect(EndPoint);
-            State.Socket.BeginReceive(State.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), State);
+            try
+            {
+                State.Socket.Connect(EndPoint);
+                State.Socket.BeginReceive(State.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), State);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.ToString());
+                Environment.Exit(84);
+            }
         }
 
         private static void ReceiveCallback(IAsyncResult ar)
@@ -76,8 +84,16 @@ namespace CoincheClient
 
         public void Send(ref GeneralistProto proto)
         {
-            var data = proto.ToByteArray();
-            State.Socket.Send(data);
+            try
+            {
+                var data = proto.ToByteArray();
+                State.Socket.Send(data);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.ToString());
+                Environment.Exit(84);
+            }
         }
     }
 }

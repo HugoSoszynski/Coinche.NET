@@ -113,5 +113,11 @@ namespace CoincheServer
             }
             return null;
         }
+
+        public void DeletePlayer(ref Player player)
+        {
+            Lobby lobby = FindLobby(ref player);
+            lobby.DeletePlayer(ref player);
+        }
     }
 }

@@ -29,9 +29,9 @@ namespace CoincheServer
 
         private static void ReadCallback(IAsyncResult ar)
         {
+            Player player = ar.AsyncState as Player;
             try
             {
-                Player player = ar.AsyncState as Player;
                 int bytesRead = player.Socket.EndReceive(ar);
                 Console.WriteLine("bytesRead = " + bytesRead.ToString());
                 if (bytesRead > 0)
@@ -42,11 +42,13 @@ namespace CoincheServer
                     LobbyManager.GetInstance().Treat(ref player, proto);
                     BeginRead(ref player);
                 }
+                else
+                    LobbyManager.GetInstance().DeletePlayer(ref player);
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.ToString());
-                // Remove player
+                LobbyManager.GetInstance().DeletePlayer(ref player);
             }
         }
 
@@ -70,19 +72,19 @@ namespace CoincheServer
 
         private static void SendCallback(IAsyncResult ar)
         {
+            Player player = ar.AsyncState as Player;
             try
             {
-                Player player = ar.AsyncState as Player;
                 if (player.Socket.EndSend(ar) <= 0)
                 {
                     Console.Error.WriteLine("ERROR: Nothing was sent to the client.");
-                    // Remove player
+                    LobbyManager.GetInstance().DeletePlayer(ref player);
                 }
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.ToString());
-                // Remove player
+                LobbyManager.GetInstance().DeletePlayer(ref player);
             }
         }
     }

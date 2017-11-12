@@ -152,5 +152,16 @@ namespace CoincheServer
                     return true;
             return false;
         }
+
+        public void DeletePlayer(ref Player player)
+        {
+            Broadcast(player.Name + " exited.", ref player);
+            if (game != null)
+                Broadcast("Quitting the game.", ref player);
+            game = null;
+            players.Remove(player);
+            foreach (var p in players)
+                p.hand.Clear();
+        }
     }
 }
