@@ -99,8 +99,7 @@ namespace CoincheClient {
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Gamecmd,
                 Gamecmd = new CGame {
-                    Cmd = CGame.Types.Cmd.Hand,
-                    Value = Order.Substring(6)
+                    Cmd = CGame.Types.Cmd.Hand
                 }
             };
             return proto;
