@@ -89,9 +89,9 @@ namespace CoincheServer
 
         private void LobbiesListing(ref Player player)
         {
-            PlayerSession.BeginSend(ref player, "Actual lobbies are :\n");
+            PlayerSession.BeginSend(ref player, "Actual lobbies are :");
             foreach (var lobby in lobbies) {
-                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name + '\n');
+                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name);
             }
         }
 

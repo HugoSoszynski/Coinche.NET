@@ -52,13 +52,25 @@ namespace CoincheClient
                 int len = state.Socket.EndReceive(ar);
 
                 if (len > 0)
-                    Console.Out.WriteLine(Encoding.ASCII.GetString(state.Buffer, 0, len));
-                state.Socket.BeginReceive(state.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                {
+                    Console.Out.Write(Encoding.ASCII.GetString(state.Buffer, 0, len));
+                    state.Socket.BeginReceive(state.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                }
+                else
+                {
+                    Console.Out.WriteLine("You have been disconected from the server. Exiting.");
+                    Console.Out.WriteLine("Press ENTER to quit...");
+                    Console.ReadLine();
+                    Environment.Exit(84);
+                }
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.ToString());
-                throw;
+                Console.Out.WriteLine("You have been disconected from the server. Exiting.");
+                Console.Out.WriteLine("Press ENTER to quit...");
+                Console.ReadLine();
+                Environment.Exit(84);
             }
         }
 

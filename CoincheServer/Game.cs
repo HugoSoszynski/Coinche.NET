@@ -103,7 +103,7 @@ namespace CoincheServer
         private void Broadcast(string msg) {
             var list = players.ToArray();
             for (int i = 0; i < list.Length; ++i) {
-                PlayerSession.BeginSend(ref list[i], msg);
+                PlayerSession.BeginSend(ref list[i], msg + '\n');
             }
         }
 

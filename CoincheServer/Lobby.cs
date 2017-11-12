@@ -108,7 +108,7 @@ namespace CoincheServer
             }
             var list = players.ToArray();
             for (int i = 0; i < list.Length; ++i) {
-                PlayerSession.BeginSend(ref list[i], "The game has been supress, your team reset you can now do a revanche");
+                PlayerSession.BeginSend(ref list[i], "The game has been supressed, your team reset you can now do a revanche");
             }
         }
 

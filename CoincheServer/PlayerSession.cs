@@ -56,7 +56,7 @@ namespace CoincheServer
                 return;
 
             // Convert the string data to byte data using ASCII encoding.
-            byte[] byteData = Encoding.ASCII.GetBytes(data);
+            byte[] byteData = Encoding.ASCII.GetBytes(data + '\n');
 
             player.Socket.BeginSend(
                 byteData,
