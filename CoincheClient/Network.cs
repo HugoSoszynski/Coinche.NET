@@ -40,8 +40,16 @@ namespace CoincheClient
 
         public void Start()
         {
-            State.Socket.Connect(EndPoint);
-            State.Socket.BeginReceive(State.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), State);
+            try
+            {
+                State.Socket.Connect(EndPoint);
+                State.Socket.BeginReceive(State.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), State);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.ToString());
+                Environment.Exit(84);
+            }
         }
 
         private static void ReceiveCallback(IAsyncResult ar)
@@ -52,20 +60,40 @@ namespace CoincheClient
                 int len = state.Socket.EndReceive(ar);
 
                 if (len > 0)
-                    Console.Out.WriteLine(Encoding.ASCII.GetString(state.Buffer, 0, len));
-                state.Socket.BeginReceive(state.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                {
+                    Console.Out.Write(Encoding.ASCII.GetString(state.Buffer, 0, len));
+                    state.Socket.BeginReceive(state.Buffer, 0, NetState.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
+                }
+                else
+                {
+                    Console.Out.WriteLine("You have been disconected from the server. Exiting.");
+                    Console.Out.WriteLine("Press ENTER to quit...");
+                    Console.ReadLine();
+                    Environment.Exit(84);
+                }
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.ToString());
-                throw;
+                Console.Out.WriteLine("You have been disconected from the server. Exiting.");
+                Console.Out.WriteLine("Press ENTER to quit...");
+                Console.ReadLine();
+                Environment.Exit(84);
             }
         }
 
         public void Send(ref GeneralistProto proto)
         {
-            var data = proto.ToByteArray();
-            State.Socket.Send(data);
+            try
+            {
+                var data = proto.ToByteArray();
+                State.Socket.Send(data);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.ToString());
+                Environment.Exit(84);
+            }
         }
     }
 }

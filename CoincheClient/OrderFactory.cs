@@ -20,6 +20,8 @@ namespace CoincheClient {
         };
 
         private static GeneralistProto Create(string Order) {
+            if (Order.Length < 8)
+                return null;
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Servercmd,
                 Servercmd = new CServer {
@@ -31,6 +33,8 @@ namespace CoincheClient {
         }
 
         private static GeneralistProto Join(string Order) {
+            if (Order.Length < 6)
+                return null;
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Servercmd,
                 Servercmd = new CServer {
@@ -52,6 +56,8 @@ namespace CoincheClient {
         }
 
         private static GeneralistProto Username(string Order) {
+            if (Order.Length < 10)
+                return null;
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Lobbycmd,
                 Lobbycmd = new CLobby {
@@ -63,6 +69,8 @@ namespace CoincheClient {
         }
 
         private static GeneralistProto Team(string Order) {
+            if (Order.Length < 6)
+                return null;
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Lobbycmd,
                 Lobbycmd = new CLobby {
@@ -74,6 +82,8 @@ namespace CoincheClient {
         }
 
         private static GeneralistProto Card(string Order) {
+            if (Order.Length < 6)
+                return null;
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Gamecmd,
                 Gamecmd = new CGame {
@@ -85,6 +95,8 @@ namespace CoincheClient {
         }
 
         private static GeneralistProto Contract(string Order) {
+            if (Order.Length < 10)
+                return null;
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Gamecmd,
                 Gamecmd = new CGame {
@@ -99,8 +111,7 @@ namespace CoincheClient {
             GeneralistProto proto = new GeneralistProto {
                 Type = CmdTarget.Gamecmd,
                 Gamecmd = new CGame {
-                    Cmd = CGame.Types.Cmd.Hand,
-                    Value = Order.Substring(6)
+                    Cmd = CGame.Types.Cmd.Hand
                 }
             };
             return proto;
@@ -117,7 +128,7 @@ namespace CoincheClient {
         }
 
         public static GeneralistProto Generate(string Order) {
-            GeneralistProto Proto;
+            GeneralistProto Proto = null;
 
             string keyResult = keys.FirstOrDefault<string>(s => Order.Contains(s));
             switch (keyResult) {
@@ -146,7 +157,8 @@ namespace CoincheClient {
                     Proto = Hand(Order);
                     break;
                 case "#EXIT":
-                    return null;
+                    Environment.Exit(0);
+                    break;
                 default:
                     Proto = Chat(Order);
                     break;

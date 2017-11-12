@@ -17,6 +17,10 @@ namespace CoincheServer
         public string Name { get; set; }
         public Team Team { get; set; }
 
+        public bool starter = false;
+
+        public List<Card> hand = new List<Card>();
+
         public Player(ref Socket socket)
         {
             this.Socket = socket;

@@ -42,6 +42,11 @@ namespace CoincheServer
             player.Name = proto.Auth.Name;
             player.Team = Team.None;
             players.Add(player);
+            PlayerSession.BeginSend(ref player,
+                "#LIST - List all the available lobbies\n" +
+                "#JOIN [ChanName] - Join a channel\n" +
+                "#CREATE [ChanName] - Create a channel\n" +
+                "#USERNAME [NewName] - Change your username(in lobby)");
         }
 
         private void ServerCmd(ref Player player, GeneralistProto proto) {
@@ -84,9 +89,9 @@ namespace CoincheServer
 
         private void LobbiesListing(ref Player player)
         {
-            PlayerSession.BeginSend(ref player, "Actual lobbies are :\n");
+            PlayerSession.BeginSend(ref player, "Actual lobbies are :");
             foreach (var lobby in lobbies) {
-                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name + '\n');
+                PlayerSession.BeginSend(ref player, "Lobby: " + lobby.name);
             }
         }
 
@@ -107,6 +112,12 @@ namespace CoincheServer
                     return lobby;
             }
             return null;
+        }
+
+        public void DeletePlayer(ref Player player)
+        {
+            Lobby lobby = FindLobby(ref player);
+            lobby.DeletePlayer(ref player);
         }
     }
 }

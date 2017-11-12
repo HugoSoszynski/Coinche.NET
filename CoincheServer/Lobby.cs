@@ -44,8 +44,10 @@ namespace CoincheServer
         }
 
         private void ChangingUsername(ref Player player, GeneralistProto proto) {
+            string lastname = player.Name;
             player.Name = proto.Lobbycmd.Value;
             PlayerSession.BeginSend(ref player, "You succesfully change your name!!");
+            Broadcast(lastname + " change his/her name to " + player.Name, ref player);
         }
 
         private Boolean TeamFull(GeneralistProto proto)
@@ -57,6 +59,21 @@ namespace CoincheServer
                     ++cpt;
             }
             if (cpt == 2)
+                return true;
+            return false;
+        }
+
+        private bool IsGameLaunchable() {
+            int blue = 0;
+            int red = 0;
+
+            foreach (var player in players) {
+                if (player.Team == Team.Blue)
+                    ++blue;
+                else if (player.Team == Team.Red)
+                    ++red;
+            }
+            if (blue == 2 && red == 2)
                 return true;
             return false;
         }
@@ -74,10 +91,29 @@ namespace CoincheServer
             }
             player.Team = proto.Lobbycmd.Team;
             PlayerSession.BeginSend(ref player, "You join the team you wanted");
-            // can do here the check if we should launch the game
+
+            if (IsGameLaunchable()) {
+                game = new Game(ref players);
+            }
+        }
+
+        private void GameStatus() {
+            if (game == null)
+                return;
+            if (game.isOver == false)
+                return;
+            game = null;
+            foreach (Player player in players) {
+                player.Team = Team.None;
+            }
+            var list = players.ToArray();
+            for (int i = 0; i < list.Length; ++i) {
+                PlayerSession.BeginSend(ref list[i], "The game has been supressed, your team reset you can now do a revanche");
+            }
         }
 
         public void Treat(GeneralistProto proto, ref Player player){
+            GameStatus();
             switch (proto.Type) {
                 case CmdTarget.Chat:
                     Broadcast(proto.Chat.Msg, ref player);
@@ -115,6 +151,17 @@ namespace CoincheServer
                 if (inPlayer == player)
                     return true;
             return false;
+        }
+
+        public void DeletePlayer(ref Player player)
+        {
+            Broadcast(player.Name + " exited.", ref player);
+            if (game != null)
+                Broadcast("Quitting the game.", ref player);
+            game = null;
+            players.Remove(player);
+            foreach (var p in players)
+                p.hand.Clear();
         }
     }
 }
