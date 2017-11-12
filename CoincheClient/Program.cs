@@ -16,7 +16,10 @@ namespace CoincheClient
                 Order = Console.In.ReadLine();
                 proto = OrderFactory.Generate(Order);
                 if (proto == null)
-                    return;
+                {
+                    Console.Out.Write("Error in the given command\n");
+                    continue;
+                }
                 client.Send(ref proto);
             }
         }
@@ -44,6 +47,7 @@ namespace CoincheClient
                 ConnectAndStart();
             } catch (Exception e) {
                 Console.Error.WriteLine(e.Message);
+                Environment.Exit(84);
             }
         }
     }

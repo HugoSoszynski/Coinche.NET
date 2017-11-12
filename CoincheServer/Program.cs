@@ -10,7 +10,15 @@ namespace CoincheServer
     {
         static void Main(string[] args)
         {
-            AsyncListener.Start();
+            try
+            {
+                AsyncListener.Start();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.ToString());
+                Environment.Exit(84);
+            }
         }
     }
 }

@@ -108,7 +108,7 @@ namespace CoincheServer
             }
             var list = players.ToArray();
             for (int i = 0; i < list.Length; ++i) {
-                PlayerSession.BeginSend(ref list[i], "The game has been supress, your team reset you can now do a revanche");
+                PlayerSession.BeginSend(ref list[i], "The game has been supressed, your team reset you can now do a revanche");
             }
         }
 
@@ -151,6 +151,17 @@ namespace CoincheServer
                 if (inPlayer == player)
                     return true;
             return false;
+        }
+
+        public void DeletePlayer(ref Player player)
+        {
+            Broadcast(player.Name + " exited.", ref player);
+            if (game != null)
+                Broadcast("Quitting the game.", ref player);
+            game = null;
+            players.Remove(player);
+            foreach (var p in players)
+                p.hand.Clear();
         }
     }
 }
